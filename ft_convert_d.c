@@ -6,17 +6,17 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:56:16 by wta               #+#    #+#             */
-/*   Updated: 2018/11/23 14:31:18 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/23 15:38:59 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char	*ft_itoa_pf(long long n, char *output, int *maxl, t_lpf *node)
+static char	*ft_itoa_pf(long long n, char *output, int maxl, t_lpf *node)
 {
 	while (n)
 	{
-		output[--(*maxl)] = ft_abs(n % 10) + '0';
+		output[--maxl] = ft_abs(n % 10) + '0';
 		n /= 10;
 	}
 	return (output);
@@ -50,7 +50,7 @@ char		*ft_acc_filler(char *str, t_lpf *node)
 int		ft_maxlen(long long n, t_lpf *node, int *nbrlen, int offset)
 {
 	*nbrlen = ft_intlen_base(n, 10);
-	if (node->acc > *nbrlen && node->acc > node->width)
+	if (node->acc >= *nbrlen && node->acc >= node->width)
 		return (node->acc + offset);
 	else if (node->width > node->acc && *nbrlen < node->width)
 		return (node->width);
@@ -69,25 +69,31 @@ char		*ft_convert_d(long long n, t_lpf *node)
 	maxl = ft_maxlen(n, node, &nbrlen, offset);
 	if (!(output = ft_strnew(maxl)))
 		return (NULL);
-	output = ft_itoa_pf(n, output, &maxl, node);
-		i = maxl;
-		while (i > node->acc)
-			output[i--] = '0';
-		if (n < 0)
-			output[i] = '-';
-		else if (node->flag & PLUS)
-			output[i] = '+';
-		else if (node->flag & SPACE)
-			output[i] = ' ';
-	if ((node->flag & MINUS) && (node->width + node->acc) / 2 > nbrlen - offset)
+	output = ft_itoa_pf(n, output, maxl, node);
+	i = maxl - nbrlen;
+	while (i >= maxl - node->acc)
+		output[--i] = '0';
+	if (n < 0)
+		output[i] = '-';
+	else if (node->flag & PLUS)
+		output[i] = '+';
+	else if (node->flag & SPACE)
+		output[i] = ' ';
+	if (node->flag & MINUS && (node->width + node->acc) / 2 > nbrlen)
 	{
-		output = ft_memmove(output, &output[maxl - i],);
+		output = ft_strcpy(output, &output[i]);
+		while (nbrlen < maxl)
+			output[nbrlen++] = ' ';
 	}
 	else
-		while (i)
-			output[--i] = '0';
-
-
+	{
+		if (node->flag & ZERO && node->acc == 0)
+			while (i > 0)
+				output[--i] = '0';
+		else
+			while (i > 0)
+				output[--i] = ' ';
+	}
 
 
 	/*
