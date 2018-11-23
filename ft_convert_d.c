@@ -6,38 +6,22 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:56:16 by wta               #+#    #+#             */
-/*   Updated: 2018/11/23 10:27:58 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/23 14:31:18 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char	*ft_itoa_pf(long long n, t_lpf *node)
+static char	*ft_itoa_pf(long long n, char *output, int *maxl, t_lpf *node)
 {
-	char	*str;
-	int		sign;
-	int		len;
-
-	sign = (n < 0);
-	len = ft_intlen_base(n, 10);
-	if (n >= 0)
-		len += ((node->flag & PLUS) > 0) || ((node->flag & SPACE) > 0);
-	if (!(str = ft_strnew(len)))
-		return (NULL);
-	while (len > 1)
+	while (n)
 	{
-		str[--len] = ft_abs(n % 10) + '0';
+		output[--(*maxl)] = ft_abs(n % 10) + '0';
 		n /= 10;
 	}
-	if (!sign && (node->flag & PLUS) > 0)
-		str[0] = '+';
-	else if (!sign && (node->flag & SPACE) > 0)
-		str[0] = ' ';
-	else
-		str[0] = (sign) ? '-' : n % 10 + '0';
-	return (str);
+	return (output);
 }
-
+/*
 char		*ft_acc_filler(char *str, t_lpf *node)
 {
 	char	*output;
@@ -62,10 +46,64 @@ char		*ft_acc_filler(char *str, t_lpf *node)
 	free(str);
 	return (output);
 }
+*/
+int		ft_maxlen(long long n, t_lpf *node, int *nbrlen, int offset)
+{
+	*nbrlen = ft_intlen_base(n, 10);
+	if (node->acc > *nbrlen && node->acc > node->width)
+		return (node->acc + offset);
+	else if (node->width > node->acc && *nbrlen < node->width)
+		return (node->width);
+	return (*nbrlen);
+}
 
 char		*ft_convert_d(long long n, t_lpf *node)
 {
 	char	*output;
-	output = NULL;
+	int		offset;
+	int		nbrlen;
+	int		maxl;
+	int		i;
+
+	offset = (n < 0) || (node->flag & PLUS) || (node->flag & SPACE);
+	maxl = ft_maxlen(n, node, &nbrlen, offset);
+	if (!(output = ft_strnew(maxl)))
+		return (NULL);
+	output = ft_itoa_pf(n, output, &maxl, node);
+		i = maxl;
+		while (i > node->acc)
+			output[i--] = '0';
+		if (n < 0)
+			output[i] = '-';
+		else if (node->flag & PLUS)
+			output[i] = '+';
+		else if (node->flag & SPACE)
+			output[i] = ' ';
+	if ((node->flag & MINUS) && (node->width + node->acc) / 2 > nbrlen - offset)
+	{
+		output = ft_memmove(output, &output[maxl - i],);
+	}
+	else
+		while (i)
+			output[--i] = '0';
+
+
+
+
+	/*
+	if (node->acc > nbrlen)
+	{
+		i = maxl - node->acc;
+		if (n < 0)
+			output[i - offset] = '-';
+		else if (node->flag & PLUS)
+			output[i - offset] = '+';
+		else if (node->flag & SPACE)
+			output[i - offset] = ' ';
+		while (i < maxl - nbrlen + offset)
+			output[i++] = '0';
+	}
+	if ()
+	*/
 	return (output);
 }
