@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 01:52:03 by wta               #+#    #+#             */
-/*   Updated: 2018/11/23 02:10:57 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/24 05:01:46 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_convert_c(int c, t_lpf *node)
 	output = NULL;
 	if (!(output = ft_strnew(1)))
 		return (NULL);
+	if (c == 0)
+		node->type = 0;
 	output[0] = (char)c;
 	if (node->width > 1 && node->flag & MINUS)
 	{

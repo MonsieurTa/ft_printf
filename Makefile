@@ -6,7 +6,7 @@
 #    By: wta <marvin@42.fr>                         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/22 09:43:49 by wta               #+#    #+#              #
-#    Updated: 2018/11/23 08:23:05 by wta              ###   ########.fr        #
+#    Updated: 2018/11/24 02:01:18 by wta              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC		=	ft_printf.c			ft_convert_c.c		ft_convert_p.c			\
 			libft/ft_strlen.c	libft/ft_strndup.c	libft/ft_intlen_base.c	\
 			libft/ft_strndupfree.c											\
 			libft/ft_strnew.c	libft/ft_strcat.c	libft/ft_strcpy.c		\
-			libft/ft_memcpy.c
+			libft/ft_memcpy.c	libft/ft_strdel.c
 
 INC		=	./ft_printf.h
 

@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:35:40 by wta               #+#    #+#             */
-/*   Updated: 2018/11/23 06:40:39 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/24 06:05:50 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,16 @@
 # define MINUS		1 << 2
 # define SPACE		1 << 3
 # define PLUS		1 << 4
-# define CHAR		1 << 5
-# define SHORT		1 << 6
-# define LONG		1 << 7
-# define LLONG		1 << 8
-# define OCTAL		1 << 9
-# define HEX_L		1 << 10
-# define HEX_U		1 << 11
-# define HEX_PTR	1 << 12
-# define LDOUBLE	1 << 13
+# define ACC		1 << 5
+# define CHAR		1 << 6
+# define SHORT		1 << 7
+# define LONG		1 << 8
+# define LLONG		1 << 9
+# define OCTAL		1 << 10
+# define HEX_L		1 << 11
+# define HEX_U		1 << 12
+# define HEX_PTR	1 << 13
+# define LDOUBLE	1 << 14
 
 typedef struct	s_lpf
 {
@@ -37,6 +38,7 @@ typedef struct	s_lpf
 	int				width;
 	int				acc;
 	int				ret;
+	char			type;
 	char			*str;
 }				t_lpf;
 
@@ -55,6 +57,9 @@ char	*ft_convert_c(int c, t_lpf *node);
 char	*ft_convert_p(unsigned long ptr, t_lpf *node);
 char	*ft_convert_per(int c, t_lpf *node);
 char	*ft_convert_d(long long n, t_lpf *node);
+char	*ft_convert_u(unsigned long long n, t_lpf *node);
+char	*ft_convert_acc(char *output, int len, t_lpf *node);
+char	*ft_strinsert(char *s1, char *s2, int index);
 
 int		ft_abs(long long n);
 

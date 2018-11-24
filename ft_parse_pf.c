@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 01:14:56 by wta               #+#    #+#             */
-/*   Updated: 2018/11/23 09:52:58 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/24 05:50:25 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int		ft_parse_mod(t_lpf *node, char *fmt)
 	{
 		if (fmt[1] == 'h')
 			node->flag |= CHAR;
-		else
+		else if ((node->flag & CHAR) == 0)
 			node->flag |= SHORT;
 	}
 	if (fmt[0] == 'l')
 	{
 		if (fmt[1] == 'l')
 			node->flag |= LLONG;
-		else
+		else if ((node->flag & LLONG) == 0)
 			node->flag |= LONG;
 	}
 	if (fmt[0] == 'L')
@@ -44,10 +44,13 @@ char	ft_parse_flag(t_lpf *node, char *fmt, int *index)
 			node->flag |= PLUS;
 		if (fmt[*index] == '-')
 			node->flag |= MINUS;
+		if (fmt[*index] == '.')
+		{
+			node->flag |= ACC;
+			node->acc = ft_atoi(&fmt[*index + 1]);
+		}
 		if (fmt[*index] == '0' && node->width == 0)
 			node->flag |= ZERO;
-		if (fmt[*index] == '.' && ft_isdigit(fmt[*index + 1]))
-			node->acc = ft_atoi(&fmt[*index + 1]);
 		if (ft_isdigit(fmt[*index]) && fmt[*index] != 0 && node->width == 0
 		&& node->acc == 0)
 			node->width = ft_atoi(&fmt[*index]);

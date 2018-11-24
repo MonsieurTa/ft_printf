@@ -6,13 +6,13 @@
 /*   By: wta <wta@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 17:14:57 by wta               #+#    #+#             */
-/*   Updated: 2018/11/06 07:38:14 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/24 05:40:28 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_intlen_base(int n, int base)
+size_t	ft_intlen_base(long long n, int base)
 {
 	size_t	len;
 

@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 01:12:30 by wta               #+#    #+#             */
-/*   Updated: 2018/11/23 01:14:06 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/24 05:02:39 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,17 @@ void	ft_print_all(t_lpf *lpf, int *ret)
 		elem = lpf;
 		while (elem)
 		{
-			ft_putstr(elem->str);
-			*ret += elem->ret;
+			if (elem->type == 0)
+			{
+				ft_putstr(elem->str);
+				*ret += elem->ret + 1;
+				write(1, "\0", 1);
+			}
+			else
+			{
+				ft_putstr(elem->str);
+				*ret += elem->ret;
+			}
 			elem = elem->next;
 		}
 	}
@@ -38,6 +47,7 @@ t_lpf	*ft_pf_new()
 	new->width = 0;
 	new->acc = 0;
 	new->ret = 0;
+	new->type = -1;
 	new->str = NULL;
 	return (new);
 }

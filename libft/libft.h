@@ -6,7 +6,7 @@
 /*   By: wta <wta@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/28 20:38:40 by wta               #+#    #+#             */
-/*   Updated: 2018/11/22 23:36:13 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/24 05:41:06 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int				ft_isalpha(int c);
 int				ft_isascii(int c);
 int				ft_isdigit(int c);
 int				ft_isprint(int c);
-size_t			ft_intlen_base(int n, int base);
+size_t			ft_intlen_base(long long n, int base);
 char			*ft_itoa(int n);
 
 t_list			*ft_lstnew(void const *content, size_t content_size);
