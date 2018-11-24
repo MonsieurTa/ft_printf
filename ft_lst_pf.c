@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 01:12:30 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 05:02:39 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/24 19:44:03 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,30 @@ t_lpf	**ft_lpf_append(t_lpf **lpf, t_lpf *node)
 	else
 		*lpf = node;
 	return (lpf);
+}
+
+void	ft_rm_lst(t_lpf *lst)
+{
+	t_lpf	*elem;
+	t_lpf	*tmp;
+
+	elem = NULL;
+	if (lst)
+	{
+		elem = lst;
+		while (elem)
+		{
+			ft_strdel(&(elem->str));
+			tmp = elem;
+			elem = elem->next;
+			free(tmp);
+		}
+	}
+}
+
+void	ft_error(t_lpf *lst)
+{
+	ft_rm_lst(lst);
+	ft_putstr("error\n");
+	exit(0);
 }

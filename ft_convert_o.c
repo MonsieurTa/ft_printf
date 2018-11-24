@@ -1,65 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_convert_u.c                                     :+:      :+:    :+:   */
+/*   ft_convert_o.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/24 06:06:10 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 16:43:05 by wta              ###   ########.fr       */
+/*   Created: 2018/11/24 07:44:18 by wta               #+#    #+#             */
+/*   Updated: 2018/11/24 16:03:30 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_intlen_base_u(unsigned long long n, int base)
-{
-	int	len;
-
-	if (n == 0)
-		return (1);
-	len = 0;
-	while (n)
-	{
-		len++;
-		n /= base;
-	}
-	return (len);
-}
-
-static char	*ft_itoa_u(unsigned long long n)
+static char	*ft_itoa_o(unsigned long long n, t_lpf *node)
 {
 	char	*str;
 	int		len;
 
 	str = NULL;
-	len = ft_intlen_base_u(n, 10);
+	len = ft_intlen_base_u(n, 8);
+	len += (n != 0) ? (node->flag & SHARP) : 0;
 	if (!(str = ft_strnew(len)))
 		return (NULL);
-	while (len > 0)
+	while (len > 1)
 	{
 		len--;
-		str[len] = n % 10 + '0';
-		n /= 10;
+		str[len] = n % 8 + '0';
+		n /= 8;
 	}
+	str[0] = ((node->flag & SHARP) && n != 0) ? '0' : n % 8 + '0';
 	return (str);
 }
 
-char	*ft_convert_u(unsigned long long n, t_lpf *node)
+char	*ft_convert_o(unsigned long long n, t_lpf *node)
 {
 	char	*str;
+	int		opt;
 	int		len;
 
-	str = NULL;
 	if (node->flag & CHAR)
 		n = (unsigned char)n;
 	else if (node->flag & SHORT)
 		n = (unsigned short)n;
-	if (n == 0 && (node->flag & ACC) && node->acc == 0)
+	if (n == 0 && (node->flag & ACC) && node->acc == 0 && !(node->flag & SHARP))
 		str = ft_strdup("");
-	else if (!(str = ft_itoa_u(n)))
+	else if (!(str = ft_itoa_o(n, node)))
 		return (NULL);
 	len = ft_strlen(str);
+	opt = (n != 0 && (node->flag & SHARP)) ? 1 : 0;
 	if (*str != '\0' && node->acc >len - (!ft_isdigit(str[0]))
 	&& !(str = ft_convert_acc(str, len - !ft_isdigit(str[0]), node)))
 		return (NULL);

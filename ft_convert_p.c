@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 02:16:52 by wta               #+#    #+#             */
-/*   Updated: 2018/11/23 02:36:52 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/24 16:33:33 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,41 +27,41 @@ static int		ft_plen(unsigned long ptr)
 
 static char	*ft_ptoa(unsigned long ptr)
 {
-	char	*output;
+	char	*str;
 	int		mod;
 	int		len;
 
-	output = NULL;
+	str = NULL;
 	len = ft_plen(ptr);
-	if (!(output = ft_strnew(len)))
+	if (!(str = ft_strnew(len)))
 		return (NULL);
-	output[0] = '0';
-	output[1] = 'x';
+	str[0] = '0';
+	str[1] = 'x';
 	while (--len > 1)
 	{
 		mod = ptr % 16;
-		output[len] = (mod > 9) ? 'a' + (mod % 10) : mod + '0';
+		str[len] = (mod > 9) ? 'a' + (mod % 10) : mod + '0';
 		ptr /= 16;
 	}
-	return (output);
+	return (str);
 }
 
 char	*ft_convert_p(unsigned long ptr, t_lpf *node)
 {
-	char	*output;
+	char	*str;
 	int		len;
 
-	output = NULL;
-	if (!(output = ft_ptoa(ptr)))
+	str = NULL;
+	if (!(str = ft_ptoa(ptr)))
 		return (NULL);
-	len = ft_strlen(output);
+	len = ft_strlen(str);
 	if (node->width > len && node->flag & MINUS)
 	{
-		if (!(output = ft_strjoinfree(output, ft_strspace(node->width - len))))
+		if (!(str = ft_strjoinfree(str, ft_strspace(node->width - len))))
 			return (NULL);
 	}
 	else if (node->width > len)
-		if (!(output = ft_strjoinfree(ft_strspace(node->width - len), output)))
+		if (!(str = ft_strjoinfree(ft_strspace(node->width - len), str)))
 			return (NULL);
-	return (output);
+	return (str);
 }

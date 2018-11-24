@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:38:55 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 06:05:52 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/24 19:40:14 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,19 @@ char	*ft_convert_type(t_lpf *node, va_list ap)
 	if (node->type == 'p')
 		if (!(str = ft_convert_p(va_arg(ap, unsigned long), node)))
 			return (NULL);
+
 	if (node->type == 'd' || node->type == 'i')
 	{
 		if (node->flag & LLONG)
 			if ((!(str = ft_convert_d(va_arg(ap, long long), node))))
 				return (NULL);
+
 		if (node->flag & LONG)
 			if (!(str = ft_convert_d(va_arg(ap, long), node)))
 				return (NULL);
+
 		if (!(node->flag & LLONG) && !(node->flag & LONG)
-			&&!(str = ft_convert_d(va_arg(ap, int), node)))
+				&& !(str = ft_convert_d(va_arg(ap, int), node)))
 			return (NULL);
 	}
 	if (node->type == 'u')
@@ -46,12 +49,58 @@ char	*ft_convert_type(t_lpf *node, va_list ap)
 		if (node->flag & LLONG)
 			if ((!(str = ft_convert_u(va_arg(ap, unsigned long long), node))))
 				return (NULL);
+
 		if (node->flag & LONG)
 			if (!(str = ft_convert_u(va_arg(ap, unsigned long), node)))
 				return (NULL);
+
 		if (!(node->flag & LLONG) && !(node->flag & LONG)
-			&&!(str = ft_convert_u(va_arg(ap, unsigned int), node)))
+				&& !(str = ft_convert_u(va_arg(ap, unsigned int), node)))
 			return (NULL);
+
+	}
+	if (node->type == 'o')
+	{
+		if (node->flag & LLONG)
+			if ((!(str = ft_convert_o(va_arg(ap, unsigned long long), node))))
+				return (NULL);
+
+		if (node->flag & LONG)
+			if (!(str = ft_convert_o(va_arg(ap, unsigned long), node)))
+				return (NULL);
+
+		if (!(node->flag & LLONG) && !(node->flag & LONG)
+				&& !(str = ft_convert_o(va_arg(ap, unsigned int), node)))
+			return (NULL);
+
+	}
+	if (node->type == 'x' || node->type == 'X')
+	{
+		if (node->flag & LLONG)
+			if ((!(str = ft_convert_hex(va_arg(ap, unsigned long long), node))))
+				return (NULL);
+
+		if (node->flag & LONG)
+			if (!(str = ft_convert_hex(va_arg(ap, unsigned long), node)))
+				return (NULL);
+
+		if (!(node->flag & LLONG) && !(node->flag & LONG)
+				&& !(str = ft_convert_hex(va_arg(ap, unsigned int), node)))
+			return (NULL);
+
+	}
+	if (node->type == 'f')
+	{
+		if (node->flag & LLONG)
+		{
+			if ((!(str = ft_convert_f(va_arg(ap, long double), node))))
+				return (NULL);
+
+		}
+		else
+			if (!(str = ft_convert_f(va_arg(ap, double), node)))
+				return (NULL);
+
 	}
 	return (str);
 }
@@ -59,14 +108,24 @@ char	*ft_convert_type(t_lpf *node, va_list ap)
 int		ft_parse_pf(t_lpf **lpf, char *fmt, va_list ap, int *index)
 {
 	t_lpf	*node;
-	
+
 	node = NULL;
 	if (!(node = ft_pf_new()))
 		return (0);
 	if (!(node->type = ft_parse_flag(node, fmt, index)))
+	{
+		if (node->str)
+			free(node->str);
+		free(node);
 		return (0);
+	}
 	if (!(node->str = ft_convert_type(node, ap)))
+	{
+		if (node->str)
+			free(node->str);
+		free(node);
 		return (0);
+	}
 	(*index)++;
 	node->ret += ft_strlen(node->str);
 	lpf = ft_lpf_append(lpf, node);
@@ -93,12 +152,12 @@ int		ft_get_str_pf(t_lpf **lpf, const char *fmt, int index)
 
 int		ft_printf(const char *fmt, ...)
 {
-	t_lpf		*lpf;
+	t_lpf		*lst;
 	va_list		ap;
 	int			index;
 	int			ret;
 
-	lpf = NULL;
+	lst = NULL;
 	index = 0;
 	ret = 0;
 	va_start(ap, fmt);
@@ -107,12 +166,16 @@ int		ft_printf(const char *fmt, ...)
 		if (fmt[index] == '%')
 		{
 			index++;
-			if (!ft_parse_pf(&lpf, (char*)fmt, ap, &index))
+			if (!ft_parse_pf(&lst, (char*)fmt, ap, &index))
+			{
+				ft_rm_lst(lst);
 				return (0);
+			}
 		}
-		index = ft_get_str_pf(&lpf, fmt, index);
+		index = ft_get_str_pf(&lst, fmt, index);
 	}
 	va_end(ap);
-	ft_print_all(lpf, &ret);
+	ft_print_all(lst, &ret);
+	ft_rm_lst(lst);
 	return (ret);
 }
