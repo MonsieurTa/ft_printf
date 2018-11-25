@@ -6,11 +6,12 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 10:44:02 by wta               #+#    #+#             */
-/*   Updated: 2018/11/25 15:23:51 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 17:57:20 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
 long double	ft_pow(long double n, int pow)
 {
@@ -89,12 +90,14 @@ char		*ft_dtoa(long double n, t_lpf *node)
 		return (NULL);
 	i = point - 1;
 	mant[0] = (point) ? '.' : '0';
+	if (node->acc > 0)
+		n += (n * ft_pow(10, node->acc) >= .5) ? (5 / ft_pow(10, node->acc + 1)) : 0;
 	while (++i < node->acc + point)
 	{
 		tmp = (long long)n;
 		n -= (long double)tmp;
 		n *= 10;
-		mant[i] = (ft_abs((int)n % 10)) + '0';
+		mant[i] = ft_abs((int)n % 10) + '0';
 	}
 	res = ft_strjoinfree(res, mant);
 	return (res);
@@ -105,8 +108,6 @@ char		*ft_convert_f(long double n, t_lpf *node)
 	char	*str;
 	int		len;
 
-	if (node->acc > 0)
-		n += (n * 10 * node->acc + 1 >= .5) ? (1 / ft_pow(10, node->acc)) : 0;
 	if (n == 0 && (node->flag & ACC) && node->acc == 0)
 		str = ft_strdup("");
 	else if (!(str = ft_dtoa(n, node)))
