@@ -6,27 +6,11 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 10:44:02 by wta               #+#    #+#             */
-/*   Updated: 2018/11/25 17:57:20 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 18:12:23 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
-
-long double	ft_pow(long double n, int pow)
-{
-	long double	ret;
-
-	if (pow == 0)
-		return (1);
-	ret = 1;
-	while (pow)
-	{
-		ret *= n;
-		pow--;
-	}
-	return (ret);
-}
 
 int			ft_intlen_f(long double n)
 {
@@ -74,7 +58,6 @@ char		*ft_itoa_f(long double n, t_lpf *node)
 
 char		*ft_dtoa(long double n, t_lpf *node)
 {
-	long long	tmp;
 	char		*res;
 	char		*mant;
 	char		point;
@@ -91,12 +74,11 @@ char		*ft_dtoa(long double n, t_lpf *node)
 	i = point - 1;
 	mant[0] = (point) ? '.' : '0';
 	if (node->acc > 0)
-		n += (n * ft_pow(10, node->acc) >= .5) ? (5 / ft_pow(10, node->acc + 1)) : 0;
+		n += (n * ft_pow(10, node->acc) >= .5)
+			? (5 / ft_pow(10, node->acc + 1)) : 0;
 	while (++i < node->acc + point)
 	{
-		tmp = (long long)n;
-		n -= (long double)tmp;
-		n *= 10;
+		n *= ft_flush_double(n);
 		mant[i] = ft_abs((int)n % 10) + '0';
 	}
 	res = ft_strjoinfree(res, mant);

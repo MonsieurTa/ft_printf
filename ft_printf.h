@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:35:40 by wta               #+#    #+#             */
-/*   Updated: 2018/11/25 15:54:45 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 18:09:08 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,7 @@ int				ft_abs(long long n);
 int				ft_intlen_base_u(unsigned long long n, int base);
 
 void			ft_rm_lst(t_lpf *lst);
+long double		ft_pow(long double n, int pow);
+long double		ft_flush_double(long double n);
 
 #endif
