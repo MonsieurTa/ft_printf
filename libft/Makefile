@@ -6,7 +6,7 @@
 #    By: wta <wta@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/28 20:09:26 by wta               #+#    #+#              #
-#    Updated: 2018/11/22 23:35:18 by wta              ###   ########.fr        #
+#    Updated: 2018/11/25 16:08:02 by wta              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ SRCS	=	ft_atoi.c		ft_bzero.c		ft_intlen_base.c				\
 			ft_strjoinfree.c	ft_strndupfree.c
 
 OBJ		=	$(SRCS:.c=.o)
-INC		=	./includes
 CC		=	gcc 
 CFLAGS	=	-Wall -Wextra -Werror
 
