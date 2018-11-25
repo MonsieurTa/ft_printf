@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 01:12:30 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 19:44:03 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 11:24:04 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ void	ft_print_all(t_lpf *lpf, int *ret)
 	}
 }
 
-t_lpf	*ft_pf_new()
+t_lpf	*ft_pf_new(void)
 {
 	t_lpf	*new;
+
+	new = NULL;
 	if (!(new = (t_lpf*)malloc(sizeof(t_lpf))))
 		return (NULL);
 	new->next = NULL;

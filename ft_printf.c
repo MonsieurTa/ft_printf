@@ -6,13 +6,13 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:38:55 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 19:40:14 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 13:48:26 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_convert_type(t_lpf *node, va_list ap)
+char	*ft_convert_basic(t_lpf *node, va_list ap)
 {
 	char	*str;
 
@@ -29,79 +29,34 @@ char	*ft_convert_type(t_lpf *node, va_list ap)
 	if (node->type == 'p')
 		if (!(str = ft_convert_p(va_arg(ap, unsigned long), node)))
 			return (NULL);
+	return (str);
+}
 
-	if (node->type == 'd' || node->type == 'i')
-	{
-		if (node->flag & LLONG)
-			if ((!(str = ft_convert_d(va_arg(ap, long long), node))))
-				return (NULL);
+char	*ft_convert_type(t_lpf *node, va_list ap)
+{
+	char	*str;
+	char	c;
 
-		if (node->flag & LONG)
-			if (!(str = ft_convert_d(va_arg(ap, long), node)))
-				return (NULL);
-
-		if (!(node->flag & LLONG) && !(node->flag & LONG)
-				&& !(str = ft_convert_d(va_arg(ap, int), node)))
+	str = NULL;
+	c = node->type;
+	if (c == '%' || c == 's' || c == 'c' || c == 'p')
+		if (!(str = ft_convert_basic(node, ap)))
 			return (NULL);
-	}
-	if (node->type == 'u')
-	{
-		if (node->flag & LLONG)
-			if ((!(str = ft_convert_u(va_arg(ap, unsigned long long), node))))
-				return (NULL);
-
-		if (node->flag & LONG)
-			if (!(str = ft_convert_u(va_arg(ap, unsigned long), node)))
-				return (NULL);
-
-		if (!(node->flag & LLONG) && !(node->flag & LONG)
-				&& !(str = ft_convert_u(va_arg(ap, unsigned int), node)))
+	if (c == 'd' || c == 'i')
+		if (!(str = ft_convert_typed(node, ap)))
 			return (NULL);
-
-	}
-	if (node->type == 'o')
-	{
-		if (node->flag & LLONG)
-			if ((!(str = ft_convert_o(va_arg(ap, unsigned long long), node))))
-				return (NULL);
-
-		if (node->flag & LONG)
-			if (!(str = ft_convert_o(va_arg(ap, unsigned long), node)))
-				return (NULL);
-
-		if (!(node->flag & LLONG) && !(node->flag & LONG)
-				&& !(str = ft_convert_o(va_arg(ap, unsigned int), node)))
+	if (c == 'u')
+		if (!(str = ft_convert_typeu(node, ap)))
 			return (NULL);
-
-	}
-	if (node->type == 'x' || node->type == 'X')
-	{
-		if (node->flag & LLONG)
-			if ((!(str = ft_convert_hex(va_arg(ap, unsigned long long), node))))
-				return (NULL);
-
-		if (node->flag & LONG)
-			if (!(str = ft_convert_hex(va_arg(ap, unsigned long), node)))
-				return (NULL);
-
-		if (!(node->flag & LLONG) && !(node->flag & LONG)
-				&& !(str = ft_convert_hex(va_arg(ap, unsigned int), node)))
+	if (c == 'o')
+		if (!(str = ft_convert_typeo(node, ap)))
 			return (NULL);
-
-	}
-	if (node->type == 'f')
-	{
-		if (node->flag & LLONG)
-		{
-			if ((!(str = ft_convert_f(va_arg(ap, long double), node))))
-				return (NULL);
-
-		}
-		else
-			if (!(str = ft_convert_f(va_arg(ap, double), node)))
-				return (NULL);
-
-	}
+	if (c == 'x' || c == 'X')
+		if (!(str = ft_convert_typex(node, ap)))
+			return (NULL);
+	if (c == 'f')
+		if (!(str = ft_convert_typef(node, ap)))
+			return (NULL);
 	return (str);
 }
 
@@ -163,9 +118,8 @@ int		ft_printf(const char *fmt, ...)
 	va_start(ap, fmt);
 	while (fmt[index])
 	{
-		if (fmt[index] == '%')
+		if (fmt[index] == '%' && (index = index + 1))
 		{
-			index++;
 			if (!ft_parse_pf(&lst, (char*)fmt, ap, &index))
 			{
 				ft_rm_lst(lst);

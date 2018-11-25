@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 01:15:37 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 16:38:17 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 11:36:50 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 int		ft_is_arg(char c)
 {
-	char	buf[] = "%cspdiouxXf";
+	char	*buf;
 	int		i;
 
+	buf = "%cspdiouxXf";
 	i = -1;
 	while (buf[++i])
 		if (buf[i] == c)
@@ -76,7 +77,6 @@ char	*ft_strinsert(char *s1, char *s2, int index)
 	ft_strdel(&s2);
 	return (output);
 }
-
 
 int		ft_abs(long long n)
 {

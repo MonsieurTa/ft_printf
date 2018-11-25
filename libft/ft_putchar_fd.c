@@ -6,7 +6,7 @@
 /*   By: wta <wta@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 17:21:30 by wta               #+#    #+#             */
-/*   Updated: 2018/11/21 04:34:50 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 12:38:19 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ static void	unicode_two(int c, const int fd)
 	write(fd, &tmp, 1);
 	mask = tmp << 6;
 	tmp = (c ^ mask) | 0x80;
-	write(fd,&tmp, 1);
+	write(fd, &tmp, 1);
 }
 
-void	ft_putchar_fd(int c, const int fd)
+void		ft_putchar_fd(int c, const int fd)
 {
 	if (c >> 16)
 		unicode_four(c, fd);

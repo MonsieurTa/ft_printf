@@ -6,23 +6,32 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 10:44:02 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 16:03:00 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 15:23:51 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-long long	ft_round(long double n)
+long double	ft_pow(long double n, int pow)
 {
-	return ((long long) ((n < 0) ? n - .5 : n + .5));
+	long double	ret;
+
+	if (pow == 0)
+		return (1);
+	ret = 1;
+	while (pow)
+	{
+		ret *= n;
+		pow--;
+	}
+	return (ret);
 }
 
-int		ft_intlen_f(long double n)
+int			ft_intlen_f(long double n)
 {
 	long long	nbr;
 	int			len;
 
-	
 	len = (n < 0) ? 1 : 0;
 	nbr = n;
 	if (nbr == 0)
@@ -35,10 +44,10 @@ int		ft_intlen_f(long double n)
 	return (len);
 }
 
-char	*ft_itoa_f(long double n, t_lpf *node)
+char		*ft_itoa_f(long double n, t_lpf *node)
 {
-	char		*str;
 	long long	nb;
+	char		*str;
 	int			len;
 
 	str = NULL;
@@ -62,12 +71,12 @@ char	*ft_itoa_f(long double n, t_lpf *node)
 	return (str);
 }
 
-char	*ft_dtoa(long double n, t_lpf *node)
+char		*ft_dtoa(long double n, t_lpf *node)
 {
+	long long	tmp;
 	char		*res;
 	char		*mant;
 	char		point;
-	int			tmp;
 	int			i;
 
 	res = NULL;
@@ -79,11 +88,10 @@ char	*ft_dtoa(long double n, t_lpf *node)
 	if (!(mant = ft_strnew(node->acc + point)))
 		return (NULL);
 	i = point - 1;
-	if (point)
-		mant[0] = '.';
+	mant[0] = (point) ? '.' : '0';
 	while (++i < node->acc + point)
 	{
-		tmp = (int)n;
+		tmp = (long long)n;
 		n -= (long double)tmp;
 		n *= 10;
 		mant[i] = (ft_abs((int)n % 10)) + '0';
@@ -92,11 +100,13 @@ char	*ft_dtoa(long double n, t_lpf *node)
 	return (res);
 }
 
-char	*ft_convert_f(long double n, t_lpf *node)
+char		*ft_convert_f(long double n, t_lpf *node)
 {
 	char	*str;
 	int		len;
 
+	if (node->acc > 0)
+		n += (n * 10 * node->acc + 1 >= .5) ? (1 / ft_pow(10, node->acc)) : 0;
 	if (n == 0 && (node->flag & ACC) && node->acc == 0)
 		str = ft_strdup("");
 	else if (!(str = ft_dtoa(n, node)))

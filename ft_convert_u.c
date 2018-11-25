@@ -6,13 +6,13 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 06:06:10 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 16:43:05 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 13:25:36 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_intlen_base_u(unsigned long long n, int base)
+int			ft_intlen_base_u(unsigned long long n, int base)
 {
 	int	len;
 
@@ -45,7 +45,7 @@ static char	*ft_itoa_u(unsigned long long n)
 	return (str);
 }
 
-char	*ft_convert_u(unsigned long long n, t_lpf *node)
+char		*ft_convert_u(unsigned long long n, t_lpf *node)
 {
 	char	*str;
 	int		len;
@@ -60,7 +60,7 @@ char	*ft_convert_u(unsigned long long n, t_lpf *node)
 	else if (!(str = ft_itoa_u(n)))
 		return (NULL);
 	len = ft_strlen(str);
-	if (*str != '\0' && node->acc >len - (!ft_isdigit(str[0]))
+	if (*str != '\0' && node->acc > len - (!ft_isdigit(str[0]))
 	&& !(str = ft_convert_acc(str, len - !ft_isdigit(str[0]), node)))
 		return (NULL);
 	len = ft_strlen(str);

@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 05:56:16 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 17:50:55 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 11:02:25 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ char	*ft_convert_acc(char *str, int len, t_lpf *node)
 			str, ft_strzero(node->acc - len), !ft_isdigit(str[0]))))
 			return (NULL);
 	}
-	else
-		if (!(new = ft_strjoinfree(ft_strzero(node->acc - len), str)))
-			return (NULL);
+	else if (!(new = ft_strjoinfree(ft_strzero(node->acc - len), str)))
+		return (NULL);
 	return (new);
 }
 

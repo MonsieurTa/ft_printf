@@ -6,13 +6,13 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 02:16:52 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 16:33:33 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 11:18:28 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int		ft_plen(unsigned long ptr)
+static int	ft_plen(unsigned long ptr)
 {
 	int	len;
 
@@ -46,7 +46,7 @@ static char	*ft_ptoa(unsigned long ptr)
 	return (str);
 }
 
-char	*ft_convert_p(unsigned long ptr, t_lpf *node)
+char		*ft_convert_p(unsigned long ptr, t_lpf *node)
 {
 	char	*str;
 	int		len;

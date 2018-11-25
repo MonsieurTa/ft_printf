@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 07:44:18 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 16:03:30 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 11:18:09 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*ft_itoa_o(unsigned long long n, t_lpf *node)
 	return (str);
 }
 
-char	*ft_convert_o(unsigned long long n, t_lpf *node)
+char		*ft_convert_o(unsigned long long n, t_lpf *node)
 {
 	char	*str;
 	int		opt;
@@ -48,7 +48,7 @@ char	*ft_convert_o(unsigned long long n, t_lpf *node)
 		return (NULL);
 	len = ft_strlen(str);
 	opt = (n != 0 && (node->flag & SHARP)) ? 1 : 0;
-	if (*str != '\0' && node->acc >len - (!ft_isdigit(str[0]))
+	if (*str != '\0' && node->acc > len - (!ft_isdigit(str[0]))
 	&& !(str = ft_convert_acc(str, len - !ft_isdigit(str[0]), node)))
 		return (NULL);
 	len = ft_strlen(str);

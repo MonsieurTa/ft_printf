@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 23:34:50 by wta               #+#    #+#             */
-/*   Updated: 2018/11/23 00:42:38 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 12:38:50 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strndupfree(const char *s1, size_t len)
 {
-	char	*dest;
+	char		*dest;
 	size_t		i;
 
 	if (!(dest = ft_strnew(len)))

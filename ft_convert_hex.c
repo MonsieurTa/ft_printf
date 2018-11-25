@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 08:11:30 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 19:21:16 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 13:05:02 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 
 char	*ft_itoa_hex(unsigned long long n, t_lpf *node)
 {
-	char	*str;
-	unsigned long long nb;
-	int		mod;
-	int		caps;
-	int		len;
+	unsigned long long	nb;
+	char				*str;
+	int					caps;
+	int					len;
 
 	str = NULL;
-	len = ft_intlen_base_u(n, 16);
-	len += (n != 0 && (node->flag & SHARP)) ? 2 : 0;
+	len = ft_intlen_base_u(n, 16) + ((n != 0 && (node->flag & SHARP)) ? 2 : 0);
 	if (!(str = ft_strnew(len)))
 		return (NULL);
 	caps = (node->type == 'X') ? CAPS : 0;
@@ -30,8 +28,7 @@ char	*ft_itoa_hex(unsigned long long n, t_lpf *node)
 	while (len > (nb != 0 && (node->flag & SHARP) ? 2 : 0))
 	{
 		len--;
-		mod = n % 16;
-		str[len] = (mod > 9) ? mod % 10 + 'a' - caps : mod + '0';
+		str[len] = (n % 16 > 9) ? ((n % 16) % 10) + 'a' - caps : n % 16 + '0';
 		n /= 16;
 	}
 	if (nb != 0 && node->flag & SHARP)
@@ -55,9 +52,8 @@ char	*ft_convert_acc_hex(char *str, int len, t_lpf *node)
 			str, ft_strzero(node->acc - len), 2)))
 			return (NULL);
 	}
-	else
-		if (!(new = ft_strjoinfree(ft_strzero(node->acc - len), str)))
-			return (NULL);
+	else if (!(new = ft_strjoinfree(ft_strzero(node->acc - len), str)))
+		return (NULL);
 	return (new);
 }
 
@@ -68,7 +64,7 @@ char	*ft_format_hex(char *str, int len, t_lpf *node)
 		if (!(str = ft_strjoinfree(str, ft_strspace(node->width - len))))
 			return (NULL);
 	}
-	else if (node->flag & ZERO && !(node->flag & ACC) 
+	else if (node->flag & ZERO && !(node->flag & ACC)
 			&& node->acc == 0 && *str != '\0')
 	{
 		if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
@@ -77,9 +73,8 @@ char	*ft_format_hex(char *str, int len, t_lpf *node)
 				str, ft_strzero(node->width - len), 2)))
 				return (NULL);
 		}
-		else
-			if (!(str = ft_strjoinfree(ft_strzero(node->width - len), str)))
-				return (NULL);
+		else if (!(str = ft_strjoinfree(ft_strzero(node->width - len), str)))
+			return (NULL);
 	}
 	else if (!(str = ft_strjoinfree(ft_strspace(node->width - len), str)))
 		return (NULL);

@@ -6,13 +6,30 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 01:16:45 by wta               #+#    #+#             */
-/*   Updated: 2018/11/24 19:18:14 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 13:25:11 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_convert_s(char *str, t_lpf *node)
+static char	*ft_width_s(char *new, char *str, int len, t_lpf *node)
+{
+	if (node->width > len && node->flag & MINUS)
+	{
+		if (!(new = ft_strjoinfree(new, ft_strspace(node->width - len))))
+			return (NULL);
+	}
+	else if (node->width > len)
+	{
+		if (!(new = ft_strjoinfree(ft_strspace(node->width - len), new)))
+			return (NULL);
+	}
+	else if (!new && !(new = ft_strdup(str)))
+		return (NULL);
+	return (new);
+}
+
+char		*ft_convert_s(char *str, t_lpf *node)
 {
 	char	*new;
 	int		len;
@@ -25,19 +42,9 @@ char	*ft_convert_s(char *str, t_lpf *node)
 	len = ft_strlen(new);
 	if (((node->acc > 0 && node->acc < len) || (node->flag & ACC))
 		&& !(new = ft_strndupfree(new, node->acc)))
-			return (NULL);
+		return (NULL);
 	len = (new) ? ft_strlen(new) : len;
-	if (node->width > len && node->flag & MINUS)
-	{
-		if (!(new = ft_strjoinfree(new, ft_strspace(node->width - len))))
-			return (NULL);
-	}
-	else if (node->width > len)
-	{
-		if (!(new = ft_strjoinfree(ft_strspace(node->width - len), new)))
-			return (NULL);
-	}
-	else if (!new && !(new = ft_strdup(str)))
+	if (!(new = ft_width_s(new, str, len, node)))
 		return (NULL);
 	return (new);
 }
