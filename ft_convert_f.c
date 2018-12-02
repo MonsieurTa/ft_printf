@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 10:44:02 by wta               #+#    #+#             */
-/*   Updated: 2018/11/25 18:12:23 by wta              ###   ########.fr       */
+/*   Updated: 2018/11/25 19:35:16 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char		*ft_dtoa(long double n, t_lpf *node)
 			? (5 / ft_pow(10, node->acc + 1)) : 0;
 	while (++i < node->acc + point)
 	{
-		n *= ft_flush_double(n);
+		n = ft_flush_double(n);
 		mant[i] = ft_abs((int)n % 10) + '0';
 	}
 	res = ft_strjoinfree(res, mant);

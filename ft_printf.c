@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:38:55 by wta               #+#    #+#             */
-/*   Updated: 2018/11/25 13:48:26 by wta              ###   ########.fr       */
+/*   Updated: 2018/12/02 07:06:49 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		ft_parse_pf(t_lpf **lpf, char *fmt, va_list ap, int *index)
 	node = NULL;
 	if (!(node = ft_pf_new()))
 		return (0);
-	if (!(node->type = ft_parse_flag(node, fmt, index)))
+	if (!(node->type = ft_parse_flag(node, fmt, index, ap)))
 	{
 		if (node->str)
 			free(node->str);

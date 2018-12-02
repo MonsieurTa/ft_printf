@@ -6,7 +6,7 @@
 /*   By: wta <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:35:40 by wta               #+#    #+#             */
-/*   Updated: 2018/11/25 18:09:08 by wta              ###   ########.fr       */
+/*   Updated: 2018/12/02 07:06:19 by wta              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void			ft_print_all(t_lpf *lpf, int *ret);
 t_lpf			*ft_pf_new(void);
 t_lpf			**ft_lpf_append(t_lpf **lpf, t_lpf *node);
 int				ft_parse_mod(t_lpf *node, char *fmt);
-char			ft_parse_flag(t_lpf *node, char *fmt, int *index);
+char			ft_parse_flag(t_lpf *node, char *fmt, int *index, va_list ap);
 int				ft_is_arg(char c);
 char			*ft_strspace(int len);
 char			*ft_strzero(int len);
